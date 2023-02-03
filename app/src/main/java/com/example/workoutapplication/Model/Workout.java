@@ -16,6 +16,17 @@ public class Workout {
         this.bodypart = bodypart;
     }
 
+
+    @Override
+    public String toString() {
+        return "Workout{" +
+                "exerciseName='" + exerciseName + '\'' +
+                ", reps=" + reps +
+                ", sets=" + sets +
+                ", weight=" + weight +
+                ", bodypart='" + bodypart + '\'' +
+                '}';
+    }
     public String getExerciseName() {
         return exerciseName;
     }
