@@ -1,31 +1,44 @@
 package com.example.workoutapplication.Model;
 
+import java.util.Date;
+
 public class Workout {
-    
+    private int id;
     private String exerciseName;
     private int reps ;
     private int sets ;
     private double weight ;
     private String bodypart ;
+    private String date;
 
     public Workout(String exerciseName, int reps, int sets, double weight, String bodypart) {
+
+
         this.exerciseName = exerciseName;
         this.reps = reps;
         this.sets = sets;
         this.weight = weight;
         this.bodypart = bodypart;
     }
+    public Workout(int id, String exerciseName, int reps, int sets, double weight, String bodypart,String date) {
+        this.id=id;
+        this.exerciseName = exerciseName;
+        this.reps = reps;
+        this.sets = sets;
+        this.weight = weight;
+        this.bodypart = bodypart;
+        this.date = date;
+    }
 
 
     @Override
     public String toString() {
-        return "Workout{" +
-                "exerciseName='" + exerciseName + '\'' +
-                ", reps=" + reps +
-                ", sets=" + sets +
-                ", weight=" + weight +
-                ", bodypart='" + bodypart + '\'' +
-                '}';
+        return  exerciseName + " :" +
+                 reps+"reps |" +
+                sets +"sets |"+
+                weight +" kg |"+
+                bodypart
+                ;
     }
     public String getExerciseName() {
         return exerciseName;

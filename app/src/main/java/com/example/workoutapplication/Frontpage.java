@@ -23,4 +23,9 @@ public class Frontpage extends AppCompatActivity {
         Intent intent = new Intent(this, InputExercise.class);
         startActivity(intent);
     }
+
+    public void toWorklist(View view) {
+        Intent intent = new Intent(this, WorkoutList.class);
+        startActivity(intent);
+    }
 }

@@ -1,8 +1,10 @@
 package com.example.workoutapplication;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.viewmodel.CreationExtras;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -26,6 +28,7 @@ public class InputExercise extends AppCompatActivity {
     String  checkedRadio;
     Workout workout;
     DatabaseHelper dbHelper = new DatabaseHelper(this);
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
