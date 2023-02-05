@@ -71,8 +71,6 @@ public class InputExercise extends AppCompatActivity {
             }
         } catch (SQLException e){
             Toast.makeText(InputExercise.this, Log.d("!!!", e.toString()), Toast.LENGTH_SHORT).show();
-            workout = new Workout("",-1,-1,-1,"error");
-            dbHelper.addWorkout(workout);
         }
         catch (EmptyInputException e){
             Toast.makeText(InputExercise.this, "Du må fylle inn alt",Toast.LENGTH_SHORT).show();

@@ -19,7 +19,9 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String table = "exercise_table";
@@ -65,6 +67,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     ContentValues cv = new ContentValues();
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm");
         LocalDateTime now = LocalDateTime.now();
+
         cv.put(COLUMN_NAME, w.getExerciseName());
         cv.put(COLUMN_REPS, w.getReps());
         cv.put(COLUMN_SETS,w.getSets());
@@ -101,4 +104,76 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.close();
         return returnList;
     }
+    //Dele opp på dato og sortere inn i lister delt på datto
+    public HashMap<String, List<String>> getData() {
+        SQLiteDatabase db = this.getReadableDatabase();
+        HashMap<String, List<String>> expandableListDetail = new HashMap<String, List<String>>();
+        ArrayList<String> arrayList1= new ArrayList<>();
+        List<String> workouts = new ArrayList<>();
+        String queryString = "SELECT * FROM "+table + " ORDER BY date";
+        ArrayList <String> arrayList = new ArrayList<>();
+        Cursor cursor = db.rawQuery(queryString,null);
+        ArrayList<ArrayList<String>> listOLists = new ArrayList<ArrayList<String>>();
+
+
+        try{
+        while (cursor.moveToNext()){
+
+            String wDate = cursor.getString(6);
+            //Splits the date
+            String[] d = wDate.split(" ");
+            //Gets the year,month and date.
+            arrayList.add(d[0]);
+
+
+            int wId = cursor.getInt(0);
+            String wName = cursor.getString(1);
+            int wReps = cursor.getInt(2);
+            int wSets = cursor.getInt(3);
+            String wBodypart = cursor.getString(4);
+            double wWeight= cursor.getDouble(5);
+
+            Workout newWorkout = new Workout(wId,wName,wReps,wSets,wWeight,wBodypart,wDate);
+            arrayList1.add(newWorkout.toString());
+            //d[0];
+            Log.d("!!!",newWorkout.toString());
+
+
+        }
+
+
+
+            expandableListDetail.put("dd",arrayList1);
+
+
+        } finally {
+            cursor.close();
+            db.close();
+        }
+        /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            expandableListDetail.forEach((k,v)-> Log.d("!!!","Key " + k + "value" +v));
+        }
+        */
+        return expandableListDetail;
+    }
+    public ArrayList<String> allDates(){
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        ArrayList <String> dates = new ArrayList<>();
+
+        String query = "SELECT "+COLUMN_DATE+" from "+table + " GROUP BY "+COLUMN_DATE;
+        Cursor cursor = db.rawQuery(query,null);
+        try {
+            while (cursor.moveToNext()) {
+                String wDate = cursor.getString(0);
+                String[] d = wDate.split(" ");
+                dates.add(d[0]);
+            }
+        } finally{
+            cursor.close();
+            db.close();
+        }
+        return dates;
+    }
+
 }
