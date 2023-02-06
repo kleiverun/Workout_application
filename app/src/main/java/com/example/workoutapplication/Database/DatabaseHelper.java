@@ -6,7 +6,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Build;
-import android.util.Log;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
@@ -16,8 +15,10 @@ import com.example.workoutapplication.Model.Workout;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.TreeMap;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String table = "exercise_table";
@@ -102,19 +103,19 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return returnList;
     }
     //Dele opp på dato og sortere inn i lister delt på datto
-    public HashMap<String, List<String>> getData() {
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public TreeMap<String, List<String>> getData() {
         SQLiteDatabase db = this.getReadableDatabase();
-        HashMap<String, List<String>> expandableListDetail = new HashMap<String, List<String>>();
+        TreeMap<String, List<String>> expandableListDetail = new TreeMap<String, List<String>>();
         ArrayList<String> arrayList1= new ArrayList<>();
         List<String> workouts = new ArrayList<>();
-        String queryString = "SELECT * FROM "+table;
+        String queryString = "SELECT * FROM "+table +" ORDER BY date";
         ArrayList <String> arrayList = new ArrayList<>();
         Cursor cursor = db.rawQuery(queryString,null);
 
 
 
         ArrayList<String> dates = new ArrayList<>();
-
         try{
         while (cursor.moveToNext()){
             //Gets the year,month and date.
@@ -141,6 +142,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             //d[0];
             // Log.d("!!!",newWorkout.toString());
         }
+            Collections.sort(dates);
 
         String date="";
         for (int perDate=0;perDate<dates.size();perDate++){
@@ -155,41 +157,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 }
 
             }
+            Collections.sort(dates);
+
             expandableListDetail.put(dates.get(perDate), allExercises);
         }
 
-
-/*
-        for (int i = 0; i< singleList.size();i++){
-            List<String> allExercises = new ArrayList<>();
-            String[] dateArray={};
-            String firstdate = "";
-            for (int t=0;t< dates.size();t++){
-                Workout w = singleList.get(i);
-                dateArray = w.getDate().split(" ");
-                firstdate = dateArray[0];
-                String dateFromArray = dates.get(t);
-
-
-                //Log.d("RUNS!",dates.get(t) );
-                if (firstdate.equals(dateFromArray)){
-                    Log.d("RUNS","OOLL");
-                    allExercises.add(w.toString());
-                }
-
-            }
-
-
-        }
-*/
         } finally {
             cursor.close();
             db.close();
         }
-        /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            expandableListDetail.forEach((k,v)-> Log.d("!!!","Key " + k + "value" +v));
-        }
-        */
         return expandableListDetail;
     }
     public ArrayList<String> allDates(){

@@ -1,7 +1,9 @@
 package com.example.workoutapplication;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ExpandableListAdapter;
@@ -14,21 +16,23 @@ import com.example.workoutapplication.Model.CustomExpandableListAdapter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.TreeMap;
 
 public class WorkoutList extends AppCompatActivity {
     DatabaseHelper databaseHelper;
     ExpandableListView expandableListView;
     ExpandableListAdapter expandableListAdapter;
     List<String> expandableListTitle;
-    HashMap<String, List<String>> expandableListDetail;
+    TreeMap<String, List<String>> expandableListDetail;
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_workout_list);
         databaseHelper = new DatabaseHelper(this);
         expandableListView = (ExpandableListView) findViewById(R.id.expandableWorkoutList);
-        expandableListDetail = databaseHelper.getData();
+            expandableListDetail = databaseHelper.getData();
         expandableListTitle = new ArrayList<String>(expandableListDetail.keySet());
         expandableListAdapter = new CustomExpandableListAdapter(this, expandableListTitle, expandableListDetail);
         expandableListView.setAdapter(expandableListAdapter);
