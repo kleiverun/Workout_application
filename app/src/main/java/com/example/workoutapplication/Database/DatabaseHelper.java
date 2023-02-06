@@ -7,21 +7,17 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Build;
 import android.util.Log;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 
-import com.example.workoutapplication.InputExercise;
 import com.example.workoutapplication.Model.Workout;
 
-import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String table = "exercise_table";
@@ -32,6 +28,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String COLUMN_WEIGHT = "weight";
     public static final String COLUMN_DATE = "date";
     public static final String COLUMN_BODYPART = "bodypart";
+    ArrayList<Workout> singleList = new ArrayList<Workout>();
 
 
 
@@ -110,21 +107,26 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         HashMap<String, List<String>> expandableListDetail = new HashMap<String, List<String>>();
         ArrayList<String> arrayList1= new ArrayList<>();
         List<String> workouts = new ArrayList<>();
-        String queryString = "SELECT * FROM "+table + " ORDER BY date";
+        String queryString = "SELECT * FROM "+table;
         ArrayList <String> arrayList = new ArrayList<>();
         Cursor cursor = db.rawQuery(queryString,null);
-        ArrayList<ArrayList<String>> listOLists = new ArrayList<ArrayList<String>>();
 
+
+
+        ArrayList<String> dates = new ArrayList<>();
 
         try{
         while (cursor.moveToNext()){
-
+            //Gets the year,month and date.
             String wDate = cursor.getString(6);
+
             //Splits the date
             String[] d = wDate.split(" ");
-            //Gets the year,month and date.
-            arrayList.add(d[0]);
 
+            //IF date is not already in list
+            if (!dates.contains(d[0])){
+                dates.add(d[0]);
+            }
 
             int wId = cursor.getInt(0);
             String wName = cursor.getString(1);
@@ -134,18 +136,52 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             double wWeight= cursor.getDouble(5);
 
             Workout newWorkout = new Workout(wId,wName,wReps,wSets,wWeight,wBodypart,wDate);
-            arrayList1.add(newWorkout.toString());
+
+            singleList.add(newWorkout);
             //d[0];
-            Log.d("!!!",newWorkout.toString());
+            // Log.d("!!!",newWorkout.toString());
+        }
 
+        String date="";
+        for (int perDate=0;perDate<dates.size();perDate++){
+            ArrayList<String> allExercises =new ArrayList<>();
+            for (int perExercise=0;perExercise<singleList.size();perExercise++){
+                Workout w = singleList.get(perExercise);
+                 date = w.getDate().split(" ")[0];
 
+                if (date.equals(dates.get(perDate))){
+                    allExercises.add(w.toString());
+                    allExercises.toString();
+                }
+
+            }
+            expandableListDetail.put(dates.get(perDate), allExercises);
         }
 
 
+/*
+        for (int i = 0; i< singleList.size();i++){
+            List<String> allExercises = new ArrayList<>();
+            String[] dateArray={};
+            String firstdate = "";
+            for (int t=0;t< dates.size();t++){
+                Workout w = singleList.get(i);
+                dateArray = w.getDate().split(" ");
+                firstdate = dateArray[0];
+                String dateFromArray = dates.get(t);
 
-            expandableListDetail.put("dd",arrayList1);
+
+                //Log.d("RUNS!",dates.get(t) );
+                if (firstdate.equals(dateFromArray)){
+                    Log.d("RUNS","OOLL");
+                    allExercises.add(w.toString());
+                }
+
+            }
 
 
+        }
+*/
         } finally {
             cursor.close();
             db.close();

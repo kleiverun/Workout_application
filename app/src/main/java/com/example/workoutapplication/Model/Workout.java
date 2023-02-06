@@ -40,6 +40,15 @@ public class Workout {
                 bodypart
                 ;
     }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
     public String getExerciseName() {
         return exerciseName;
     }
