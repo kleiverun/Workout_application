@@ -4,4 +4,12 @@
     <string name="excerciseName">Excercise name</string>
     <string name="edttxt_sets">Sets</string>
     <string name="edttxt_reps">Reps</string>
+    <string name="seeWorkout">See workouts! 🏋️</string>
+    <string name="addWorkout">Add a workout!</string>
+    <string name="addYourWorkout">Add your workout</string>
+
+    <string name="clear">Clear workout</string>
+    <string name="rdoBack">Back</string>
+    <string name="rdoLegs">Legs</string>
+    <string name="rdoChest">Chest</string>
 </resources>

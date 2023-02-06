@@ -27,6 +27,7 @@ public class InputExercise extends AppCompatActivity {
     RadioGroup rdoG;
     String  checkedRadio;
     Workout workout;
+    RadioButton chest,back,legs;
     DatabaseHelper dbHelper = new DatabaseHelper(this);
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -37,7 +38,13 @@ public class InputExercise extends AppCompatActivity {
         edtWeight = findViewById(R.id.edttxt_weight);
         edtReps = findViewById(R.id.edttxt_reps);
         edtSets = findViewById(R.id.edttxt_sets);
+        chest = findViewById(R.id.rdo_chest);
+        back = findViewById(R.id.rdo_back);
+        legs = findViewById(R.id.rdo_legs);
+
+
         rdoG = findViewById(R.id.rdoGroup);
+
 
         rdoG.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -55,10 +62,12 @@ public class InputExercise extends AppCompatActivity {
             if (isEmpty(edtName) || isEmpty(edtWeight) || isEmpty(edtReps) || isEmpty(edtSets) ){
                 throw new EmptyInputException();
             }
+
             String name = String.valueOf(edtName.getText());
             double weight =Double.parseDouble(String.valueOf(edtWeight.getText()));
             int reps =Integer.parseInt(String.valueOf(edtReps.getText()));
             int sets =Integer.parseInt(String.valueOf(edtSets.getText()));
+
            //Instantiating the workout object
             workout = new Workout(name,reps,sets,weight, checkedRadio);
 
@@ -73,10 +82,10 @@ public class InputExercise extends AppCompatActivity {
             Toast.makeText(InputExercise.this, Log.d("!!!", e.toString()), Toast.LENGTH_SHORT).show();
         }
         catch (EmptyInputException e){
+            //EMPTY INPUT CONDITION
             Toast.makeText(InputExercise.this, "Du må fylle inn alt",Toast.LENGTH_SHORT).show();
         }
         });
-
 
     }
     private boolean isEmpty(EditText etText) {
@@ -87,4 +96,13 @@ public class InputExercise extends AppCompatActivity {
     }
 
 
+    public void clear(View view) {
+        edtName.setText(null);
+        edtWeight.setText(null);
+        edtReps .setText(null);
+        edtSets.setText(null);
+        chest.setChecked(false);
+        back.setChecked(false);
+        legs.setChecked(false);
+    }
 }

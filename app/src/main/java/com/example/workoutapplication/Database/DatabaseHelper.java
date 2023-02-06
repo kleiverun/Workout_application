@@ -54,10 +54,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
-      // String sqlUpgrade = "DROP TABLE IF EXISTS " + table;
+         String sqlUpgrade = "DROP TABLE IF EXISTS " + table;
+        sqLiteDatabase.execSQL(sqlUpgrade);
 
+        onCreate(sqLiteDatabase);
 
-        // sqLiteDatabase.execSQL(sqlUpgrade);
     }
     @RequiresApi(api = Build.VERSION_CODES.O)
     public long addWorkout(Workout w){
@@ -168,6 +169,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
         return expandableListDetail;
     }
+
     public ArrayList<String> allDates(){
         SQLiteDatabase db = this.getReadableDatabase();
 

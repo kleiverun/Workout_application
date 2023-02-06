@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-      tools:context=".InputExercise">
+    android:background="@color/md_theme_light_background"
+    tools:context=".InputExercise">
 
 
 
@@ -13,28 +14,30 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
 
-        android:layout_marginTop="40dp"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
         app:layout_constraintTop_toTopOf="parent">
         <TextView
             android:id="@+id/txtHeader"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Enter your: "
-             android:textSize="20dp"
+            android:textColor="@color/md_theme_light_scrim"
+             android:textSize="@dimen/btntxtsize"
             app:layout_constraintStart_toStartOf="parent" />
+
         <EditText
-             android:id="@+id/edttxt_exercise"
-            android:layout_width="209dp"
-            android:layout_height="43dp"
+            android:id="@+id/edttxt_exercise"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:ems="10"
             android:hint="@string/excerciseName"
             android:inputType="textPersonName" />
 
         <EditText
              android:id="@+id/edttxt_sets"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
             android:hint="@string/edttxt_sets"
@@ -42,12 +45,13 @@
             android:minHeight="48dp" />
 
         <EditText
-             android:id="@+id/edttxt_reps"
-            android:layout_width="wrap_content"
+            android:id="@+id/edttxt_reps"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
             android:hint="@string/edttxt_reps"
-            android:inputType="number" />
+            android:inputType="number"
+            android:minHeight="48dp" />
 
         <EditText
             android:id="@+id/edttxt_weight"
@@ -55,7 +59,8 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:hint="Weight"
-            android:inputType="numberDecimal" />
+            android:inputType="numberDecimal"
+            android:minHeight="48dp" />
 
         <RadioGroup
             android:id="@+id/rdoGroup"
@@ -66,41 +71,49 @@
                 android:id="@+id/rdo_chest"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Chest"
+                android:text="@string/rdoChest"
                 />
 
             <RadioButton
                 android:id="@+id/rdo_back"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Back" />
+                android:text="@string/rdoBack" />
 
             <RadioButton
                 android:id="@+id/rdo_legs"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Legs"
-                tools:text="Legs" />
+                tools:text="@string/rdoLegs" />
         </RadioGroup>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:gravity="center"
+
+            >
 
             <Button
                 android:id="@+id/btnAdd"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Add workout"
+                android:textColor="@color/md_theme_light_onTertiary"
+                android:textSize="@dimen/smallerBtn"
+
+                android:text="@string/addYourWorkout"
                  />
 
             <Button
                 android:id="@+id/btnClear"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/material_dynamic_tertiary80"
-                android:text="Clear workout" />
+                android:textColor="@color/md_theme_light_onTertiary"
+                android:textSize="@dimen/smallerBtn"
+                android:onClick="clear"
+                android:text="@string/clear" />
         </LinearLayout>
 
     </LinearLayout>
